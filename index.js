@@ -48,11 +48,42 @@ async function run() {
       console.log(result);
     });
 
+    // user added toys
+    app.get("/my-toys", async (req, res) => {
+      console.log(req.query);
+      let query = {};
+      if (req.query?.email) {
+        query = { email: req.query.email };
+      }
+      const result = await toyCollection.find(query).toArray();
+      res.send(result);
+    });
+
     app.post("/add-toy", async (req, res) => {
       const newToy = req.body;
       console.log(newToy);
 
       const result = await toyCollection.insertOne(newToy);
+      res.send(result);
+    });
+
+    // UPDATE METHOD
+    app.patch("/toys/:id", async (req, res) => {
+      const id = req.params.id;
+      const updateToy = req.body;
+
+      console.log(updateToy);
+
+      const query = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          status: updateToy.status,
+        },
+      };
+      const result = await toyCollection.updateOne(query, updateDoc, {
+        new: true,
+      });
+      console.log(result);
       res.send(result);
     });
 
