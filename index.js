@@ -70,14 +70,16 @@ async function run() {
     // UPDATE METHOD
     app.patch("/toys/:id", async (req, res) => {
       const id = req.params.id;
-      const updateToy = req.body;
+      const updatedToy = req.body;
 
-      console.log(updateToy);
+      console.log(updatedToy);
 
       const query = { _id: new ObjectId(id) };
       const updateDoc = {
         $set: {
-          status: updateToy.status,
+          price: updatedToy.updatedPrice,
+          quantity: updatedToy.updatedQuantity,
+          details: updatedToy.updatedDetails,
         },
       };
       const result = await toyCollection.updateOne(query, updateDoc, {
