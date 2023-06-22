@@ -34,6 +34,14 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/all-toys", async (req, res) => {
+      // const limit = 20; // Specify the limit here
+      // const toys = toyCollection.find().limit(limit);
+      const toys = toyCollection.find();
+      const result = await toys.toArray();
+      res.send(result);
+    });
+
     app.get("/toys/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
